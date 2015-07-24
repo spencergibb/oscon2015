@@ -192,51 +192,63 @@ Run with `--spring.application.name=pyfortunes`
 
 http://localhost:8761/eureka/apps to show correct port and homepage
 
-add /py to fortunesui
+add `/py` to fortunesui
 
 ## Security
 
-start_spring_io.sh authserver actuator,web,security,cloud-config-client,cloud-eureka
+`start_spring_io.sh authserver actuator,web,security,cloud-config-client,cloud-eureka`
 
+application.properties
+```
 server.port=9999
 security.user.password=password
 server.contextPath=/uaa
+```
 
 in bootstrap.properties
-  spring.application.name=authserver
+```
+spring.application.name=authserver
+```
 
-add spring-security-oauth2 to pom.xml
+add `spring-security-oauth2` to pom.xml
 
 from https://github.com/dsyer/spring-security-angular/tree/master/oauth2-vanilla
 
-Update AuthserverApp https://goo.gl/qoFs5L
+Update `AuthserverApp` with code from https://goo.gl/qoFs5L
 
 visit
 http://localhost:9999/uaa/oauth/authorize?response_type=code&client_id=acme&redirect_uri=http://example.com
 
 get code from browser
 
+```
 http --form --auth acme:acmesecret POST :9999/uaa/oauth/token grant_type=authorization_code client_id=acme redirect_uri=http://example.com code=7bx7ci
 
 export TOKEN= access_token from response
+```
 
-in fortunes add spring-security-oauth2 & spring-cloud-starter-security to pom.xml
+in fortunes add `spring-security-oauth2` & `spring-cloud-starter-security` to `pom.xml`
 
-add @EnableOAuth2Resource to FortunesApp
+add `@EnableOAuth2Resource` to `FortunesApp`
 
-add spring.oauth2.resource.userInfoUri: http://localhost:9999/uaa/user
+application.properties
+```
+spring.oauth2.resource.userInfoUri: http://localhost:9999/uaa/user
+```
 
+```
 http :8080 should be 401
 http :8080 Authorization:"Bearer $TOKEN"
 http :9999/uaa/user Authorization:"Bearer $TOKEN"
+```
 
-in zuul add spring-boot-starter-security, spring-security-oauth2 & spring-cloud-starter-security to pom.xml
+in zuul add `spring-boot-starter-security`, `spring-security-oauth2` & `spring-cloud-starter-security` to `pom.xml`
 
-add https://goo.gl/29Qs56 to zuul application.yml
+add https://goo.gl/29Qs56 to zuul `application.yml`
 
-in fortunesui add spring-cloud-starter-security,spring-security-oauth2
+in fortunesui add `spring-cloud-starter-security`,`spring-security-oauth2`
 
-add @EnableOAuth2Resource to FortunesuiApp
+add `@EnableOAuth2Resource` to `FortunesuiApp`
 
 ```
 @Autowired
@@ -244,7 +256,7 @@ add @EnableOAuth2Resource to FortunesuiApp
 private OAuth2RestOperations rest;
 ```
 
-add https://goo.gl/29Qs56 to fortunesui application.yml
+add https://goo.gl/29Qs56 to fortunesui `application.yml`
 
 ## Turbine
 
