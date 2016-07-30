@@ -47,6 +47,12 @@ http :8888/foo/default
 http --form :8888/encrypt password=
 http --form :8888/decrypt $ENCRYPTED=
 ```
+# JDK requirement; if we you have exception during encryption/decryption
+# Make sure you have the unlimited strength file installed now in ${java.home}/jre/lib/security/.
+# http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
+# http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html
+# http://www.oracle.com/technetwork/java/javase/downloads/jce-6-download-429243.html
+
 
 in config-repo:application.yml set `encrypted.value: '{cipher}$ENCRYPTED'`
 
